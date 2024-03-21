@@ -1,0 +1,31 @@
+﻿@model List<BugTrackerApp.Models.Bug>
+
+<h2>Bugs</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Date Reported</th>
+        <th>Resolved</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var bug in Model)
+    {
+        <tr>
+            <td>@bug.Title</td>
+            <td>@bug.Description</td>
+            <td>@bug.DateReported.ToShortDateString()</td>
+            <td>@bug.IsResolved</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
+                 <a asp-action="Details" asp-route-id="@bug.Id">Details</a>
+                <a asp-action="Delete" asp-route-id="@bug.Id">Delete</a> 
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
