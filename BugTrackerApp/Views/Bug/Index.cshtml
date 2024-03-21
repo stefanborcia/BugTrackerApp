@@ -1,31 +1,46 @@
-﻿@model List<BugTrackerApp.Models.Bug>
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
-<h2>Bugs</h2>
+@if (!SignInManager.IsSignedIn(User))
+{
+    <p>You are not currently logged in. Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity" asp-page="/Account/Register">register</a> to continue.</p>
+}
+else
+{
+    <p>Welcome, @UserManager.GetUserName(User)!</p>
+    <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+    </form>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Description</th>
-        <th>Date Reported</th>
-        <th>Resolved</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (var bug in Model)
-    {
+    <h2>Bugs</h2>
+
+    <table class="table">
+        <thead>
         <tr>
-            <td>@bug.Title</td>
-            <td>@bug.Description</td>
-            <td>@bug.DateReported.ToShortDateString()</td>
-            <td>@bug.IsResolved</td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
-                 <a asp-action="Details" asp-route-id="@bug.Id">Details</a>
-                <a asp-action="Delete" asp-route-id="@bug.Id">Delete</a> 
-            </td>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Date Reported</th>
+            <th>Resolved</th>
+            <th>Actions</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var bug in Model)
+        {
+            <tr>
+                <td>@bug.Title</td>
+                <td>@bug.Description</td>
+                <td>@bug.DateReported.ToShortDateString()</td>
+                <td>@bug.IsResolved</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@bug.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@bug.Id">Delete</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+    <p><a asp-action="Create">Create a new bug</a></p>
+}
