@@ -1,16 +1,19 @@
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using BugTrackerApp.Data;
 
 namespace BugTrackerApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly BugDbContext _context;
+        public HomeController(ILogger<HomeController> logger, BugDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -27,6 +30,22 @@ namespace BugTrackerApp.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Dashboard()
+        {
+            var bugs = _context.Bugs
+                .ToList();
+
+            var bugStatisticsViewModel = new BugStatisticsViewModel
+            {
+                SolvedBugsCount = bugs.Count(b => b.IsResolved),
+                UnsolvedBugsCount = bugs.Count(b => !b.IsResolved),
+                HighBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.High),
+                MediumBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.Medium),
+                LowBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.Low),
+            };
+
+            return View(bugStatisticsViewModel);
         }
     }
 }

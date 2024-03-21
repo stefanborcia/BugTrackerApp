@@ -11,7 +11,7 @@ builder.Services.AddDbContext<BugDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<BugDbContext>();
+    .AddEntityFrameworkStores<BugDbContext>().AddDefaultTokenProviders(); ;
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -32,12 +32,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Dashboard}/{id?}");
 app.MapRazorPages();
 
 app.Run();
