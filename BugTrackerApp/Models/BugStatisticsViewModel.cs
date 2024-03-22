@@ -8,5 +8,9 @@
         public int MediumBugsCount { get; set; }
         public int LowBugsCount { get; set; }
         public List<int> MonthlyBugCounts { get; set; }
+        public string[] MonthLabels { get; set; }
+        public int[] HighBugsMonthlyCount { get; set; }
+        public int[] MediumBugsMonthlyCount { get; set; }
+        public int[] LowBugsMonthlyCount { get; set; }
     }
 }

@@ -19,6 +19,7 @@ namespace BugTrackerApp.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -40,9 +41,9 @@ namespace BugTrackerApp.Controllers
 
                 ModelState.AddModelError("", "Invalid email or password.");
             }
-
             return View(model);
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -65,7 +66,6 @@ namespace BugTrackerApp.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-
             return View(model);
         }
     }

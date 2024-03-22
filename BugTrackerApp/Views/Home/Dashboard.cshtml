@@ -1,32 +1,28 @@
 ﻿@model BugStatisticsViewModel
 
-
-<!-- HTML markup for the chart -->
-<div style="display: flex; justify-content: space-around;">
-    <div style="width: 45%; height:500px">
-        <h3>Chart of Bug Statistics</h3>
-        <canvas id="bugChart"></canvas>
+<div style="display: flex; justify-content: space-around;   align-items: center;
+  min-height: 80vh;width: 100%;margin: 0 auto;">
+    <div style="width: 45%;">
+        <canvas id="bugDoughnutChart"></canvas>
     </div>
     <div style="width: 45%;">
-        <h3>Bug Reports by Month</h3>
-        <canvas id="monthlyBugChart"></canvas>
+        <canvas id="monthlyBarChart"></canvas>
     </div>
 </div>
 
-<!-- Include the Chart.js library -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
 
-<!-- JavaScript to create the charts -->
 <script>
-    // Get the context for the pie chart canvas
-    var ctx = document.getElementById('bugChart').getContext('2d');
+    var bugDoughnutCtx = document.getElementById('bugDoughnutChart').getContext('2d');
+    var monthlyBarCtx = document.getElementById('monthlyBarChart').getContext('2d');
 
-    // Create the pie chart
-    var bugChart = new Chart(ctx, {
+    // Create doughnut chart for overall bug statistics
+    var bugDoughnutChart = new Chart(bugDoughnutCtx, {
         type: 'doughnut',
         data: {
             labels: ['Solved', 'Unsolved', 'High', 'Medium', 'Low'],
             datasets: [{
+                label: 'Bug Statistics',
                 data: [@Model.SolvedBugsCount, @Model.UnsolvedBugsCount, @Model.HighBugsCount, @Model.MediumBugsCount, @Model.LowBugsCount],
                 backgroundColor: ['#008000', '#ff0000', '#ffa500', '#00ffff', '#800080']
             }]
@@ -34,54 +30,48 @@
         options: {
             title: {
                 display: true,
-                text: 'Bug Statistics'
+                text: 'Overall Bug Statistics'
             }
-        }, scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero: true
-                }
-            }]
         }
-    });   
-    var ctx = document.getElementById('monthlyBugChart').getContext('2d');
-    // TODO
-    // Create the pie chart
-    var bugChart = new Chart(ctx, {
+    });
+
+    // Create bar chart for monthly bug statistics
+    var monthlyBarChart = new Chart(monthlyBarCtx, {
         type: 'bar',
         data: {
-            labels: ['January', 'February', 'March', 'April', 'Mei','Juni','July','September','Oktober','November','December'],
+            labels: @Html.Raw(Json.Serialize(Model.MonthLabels)),
             datasets: [{
-                label: 'Bugs Reported',
-                data: [@Model.MonthlyBugCounts], 
-                borderColor: 'blue',
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(201, 203, 207, 0.2)'
-                ],
-                borderColor: [
-                    'rgb(255, 99, 132)',
-                    'rgb(255, 159, 64)',
-                    'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
-                    'rgb(153, 102, 255)',
-                    'rgb(201, 203, 207)'
-                ],
+                label: 'High',
+                data: @Html.Raw(Json.Serialize(Model.HighBugsMonthlyCount)),
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                borderColor: 'rgba(255, 99, 132, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Medium',
+                data: @Html.Raw(Json.Serialize(Model.MediumBugsMonthlyCount)),
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Low',
+                data: @Html.Raw(Json.Serialize(Model.LowBugsMonthlyCount)),
+                backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                borderColor: 'rgba(255, 206, 86, 1)',
                 borderWidth: 1
             }]
         },
         options: {
             title: {
                 display: true,
-                text: 'Monthly Bug'
+                text: 'Monthly Bug Statistics'
+            },
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
             }
         }
     });
 </script>
-

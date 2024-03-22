@@ -42,8 +42,8 @@ namespace BugTrackerApp.Controllers
                 ModelState.AddModelError("", "An error occurred while saving the bug.");
                 return View(bug);
             }
-
         }
+
         public IActionResult Edit(int? id)
         {
             if (id == null)
@@ -57,43 +57,41 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
-
             return View(bug);
         }
+
         [HttpPost]
-[ValidateAntiForgeryToken]
-public IActionResult Edit(int id, Bug bug)
-{
-  if (id != bug.Id)
-  {
-    return NotFound();
-  }
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Bug bug)
+        {
+            if (id != bug.Id)
+            {
+                return NotFound();
+            }
 
-  if (ModelState.IsValid)
-  {
-    try
-    {
-      _context.Update(bug);
-      _context.SaveChanges();
-    }
-    catch (DbUpdateConcurrencyException)
-    {
-      if (!BugExists(bug.Id))
-      {
-        return NotFound();
-      }
-      else
-      {
-        ModelState.AddModelError("", "The bug you tried to edit was modified by another user. Please reload the data and try again.");
-        return View(bug);
-      }
-    }
-
-    return RedirectToAction(nameof(Index));
-  }
-
-  return View(bug);
-}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(bug);
+                    _context.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BugExists(bug.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "The bug you tried to edit was modified by another user. Please reload the data and try again.");
+                        return View(bug);
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(bug);
+        }
         private bool BugExists(int id)
         {
             return _context.Bugs.Any(e => e.Id == id);
@@ -107,11 +105,11 @@ public IActionResult Edit(int id, Bug bug)
 
             var bug = await _context.Bugs
                 .FirstOrDefaultAsync(m => m.Id == id);
+
             if (bug == null)
             {
                 return NotFound();
             }
-
             return View(bug);
         }
         public async Task<IActionResult> Delete(int? id)
@@ -128,9 +126,9 @@ public IActionResult Edit(int id, Bug bug)
             {
                 return NotFound();
             }
-
             return View(bug);
         }
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -141,7 +139,6 @@ public IActionResult Edit(int id, Bug bug)
             {
                 return NotFound();
             }
-
             _context.Bugs.Remove(bug);
             await _context.SaveChangesAsync();
 
