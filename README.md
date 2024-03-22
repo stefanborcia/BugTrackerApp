@@ -1,6 +1,6 @@
 <h3 text-align:center>Bug Tracker App Home Page </h3>
 
-![1](https://github.com/stefanborcia/BugTrackerApp/assets/98278002/819d9a01-891f-4caf-8e67-2a4f70735f1f)
+![1](https://github.com/stefanborcia/BugTrackerApp/assets/98278002/8e0130ab-41f4-45b6-b1ff-860c0f9f5da7)
 
 <h3 text-align:center>Bug Tracker App Create a Bug</h3>
 
