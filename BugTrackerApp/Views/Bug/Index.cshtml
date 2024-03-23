@@ -9,11 +9,8 @@
 }
 else
 {
-    <p>Welcome, @UserManager.GetUserName(User)!</p>
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
     </form>
-
-    <h2>Bugs</h2>
 
     <table class="table">
         <thead>
@@ -31,19 +28,22 @@ else
             @foreach (var bug in Model)
             {
                 <tr>
-                    <td>@bug.Title</td>
-                    <td>@bug.Description</td>
-                    <td>@bug.DateReported.ToShortDateString()</td>
-                    <td>@bug.IsResolved</td>
-                    <td>@bug.Level</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
-                        <a asp-action="Details" asp-route-id="@bug.Id">Details</a>
-                        <a asp-action="Delete" asp-route-id="@bug.Id">Delete</a>
+                    <td width="15%">@bug.Title</td>
+                    @* <td>@bug.Description</td> *@
+                    <td width="45%">
+                        <p id="description-text-@bug.Id" class="truncated-description">@bug.Description</p>
+                    </td>
+                    <td width="10%">@bug.DateReported.ToShortDateString()</td>
+                    <td width="5%">@bug.IsResolved</td>
+                    <td width="5%">@bug.Level</td>
+                    <td width="20%">
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
+                        <a class="btn btn-info" asp-action="Details" asp-route-id="@bug.Id">Details</a>
+                        <a class="btn btn-danger" asp-action="Delete" asp-route-id="@bug.Id">Delete</a>
                     </td>
                 </tr>
             }
         </tbody>
     </table>
-    <p><a asp-action="Create">Create a new bug</a></p>
+    <p><a class="btn alert-info" asp-action="Create">Create a new bug</a></p>
 }

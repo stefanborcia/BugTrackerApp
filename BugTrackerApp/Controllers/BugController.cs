@@ -28,20 +28,24 @@ namespace BugTrackerApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Title,Description,DateReported,IsResolved")] Bug bug)
+        public IActionResult Create(Bug bug)
         {
-            try
+            if (ModelState.IsValid)
             {
-                _context.Add(bug);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(bug);
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle the exception
+                    ModelState.AddModelError("", "An error occurred while saving the bug.");
+                    
+                }
             }
-            catch (Exception ex)
-            {
-                // Log or handle the exception
-                ModelState.AddModelError("", "An error occurred while saving the bug.");
-                return View(bug);
-            }
+            return View(bug);
         }
 
         public IActionResult Edit(int? id)

@@ -1,7 +1,23 @@
 ﻿@model BugStatisticsViewModel
 
+<svg viewBox="0 0 ">
+    <symbol id="s-text">
+        <text text-anchor="middle" x="50%" y="80%">BUG TRACKER </text>
+        <text text-anchor="middle" x="52%" y="80%">BUG TRACKER </text>
+    
+    </symbol>
+
+    <g class = "g-ants">
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+        <use xlink:href="#s-text" class="text-copy"></use>
+    </g>
+</svg>
+
 <div style="display: flex; justify-content: space-around;   align-items: center;
-  min-height: 80vh;width: 100%;margin: 0 auto;">
+  min-height: 50vh;width: 100%;margin: 0 auto;">
     <div style="width: 45%;">
         <canvas id="bugDoughnutChart"></canvas>
     </div>
