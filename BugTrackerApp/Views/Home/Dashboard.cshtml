@@ -1,5 +1,7 @@
 ﻿@model BugStatisticsViewModel
-
+@{
+    ViewData["Title"] = "My Dasboard";
+}
 <svg viewBox="0 0 ">
     <symbol id="s-text">
         <text text-anchor="middle" x="50%" y="80%">BUG TRACKER </text>
@@ -17,7 +19,7 @@
 </svg>
 
 <div style="display: flex; justify-content: space-around;   align-items: center;
-  min-height: 50vh;width: 100%;margin: 0 auto;">
+  min-height: 45vh;width: 100%;margin: 0 auto;">
     <div style="width: 45%;">
         <canvas id="bugDoughnutChart"></canvas>
     </div>

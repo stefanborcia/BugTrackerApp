@@ -2,6 +2,7 @@
 using BugTrackerApp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugTrackerApp.Controllers
@@ -23,6 +24,11 @@ namespace BugTrackerApp.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e => new SelectListItem
+            {
+                Value = e.ToString(),
+                Text = e.ToString()
+            }).ToList();
             return View();
         }
 
@@ -45,6 +51,7 @@ namespace BugTrackerApp.Controllers
                     
                 }
             }
+            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType));
             return View(bug);
         }
 
@@ -61,6 +68,14 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e =>
+                new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                }).ToList();
+
             return View(bug);
         }
 
@@ -94,6 +109,14 @@ namespace BugTrackerApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e =>
+                new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                }).ToList();
+
             return View(bug);
         }
         private bool BugExists(int id)
@@ -114,6 +137,7 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
+            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType));
             return View(bug);
         }
         public async Task<IActionResult> Delete(int? id)

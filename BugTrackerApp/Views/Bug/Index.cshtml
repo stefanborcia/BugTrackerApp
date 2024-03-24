@@ -2,7 +2,9 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@{
+    ViewData["Title"] = "Bug List";
+}
 @if (!SignInManager.IsSignedIn(User))
 {
     <p>You are not currently logged in. Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity" asp-page="/Account/Register">register</a> to continue.</p>
@@ -20,8 +22,8 @@ else
                 <th>Date Reported</th>
                 <th>Resolved</th>
                 <th>Level</th>
+                <th>Type Error</th>
                 <th>Actions</th>
-
             </tr>
         </thead>
         <tbody>
@@ -30,12 +32,13 @@ else
                 <tr>
                     <td width="15%">@bug.Title</td>
                     @* <td>@bug.Description</td> *@
-                    <td width="45%">
+                    <td width="30%">
                         <p id="description-text-@bug.Id" class="truncated-description">@bug.Description</p>
                     </td>
                     <td width="10%">@bug.DateReported.ToShortDateString()</td>
                     <td width="5%">@bug.IsResolved</td>
                     <td width="5%">@bug.Level</td>
+                    <td width="10%">@bug.Type.ToString()</td>
                     <td width="20%">
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
                         <a class="btn btn-info" asp-action="Details" asp-route-id="@bug.Id">Details</a>

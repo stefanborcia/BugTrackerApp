@@ -1,6 +1,10 @@
 ﻿@model BugTrackerApp.Models.Bug
 
-<h2>Details</h2>
+@{
+    ViewData["Title"] = "Bug Details";
+}
+
+<h3>Bug Details</h3>
 
 <p><strong>Title:</strong> @Model.Title</p>
 <p><strong>Description:</strong> @Model.Description</p>

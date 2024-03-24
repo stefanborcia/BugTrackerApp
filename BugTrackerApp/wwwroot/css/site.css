@@ -1,7 +1,10 @@
 html {
-  font-size: 14px;
+    position: relative;
+    min-height: 100%;
 }
-
+body{
+    margin-bottom:50px;
+}
 @media (min-width: 768px) {
   html {
     font-size: 16px;
@@ -12,10 +15,6 @@ html {
   box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-
-body {
-  margin-bottom: 60px;
-}
 .table {
     padding: 15px;
 }
@@ -41,10 +40,8 @@ tr:nth-child(even) {
     text-decoration: none; /* Removes underline from links */
     cursor: pointer; /* Changes cursor to pointer on hover */
 }
-.form-container {
-    text-align: center; /* Needed for some browsers */
-    margin: 0 auto;
-    width: fit-content; /* Optional: Set a width if needed */
+.form-group {
+    padding-bottom:10px;
 }
 
 .truncated-description {
@@ -102,4 +99,13 @@ svg {
     100% {
         stroke-dashoffset: -35%;
     }
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+h3 {
+    text-align: center;
 }

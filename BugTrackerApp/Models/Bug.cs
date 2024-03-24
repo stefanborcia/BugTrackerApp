@@ -9,6 +9,7 @@ namespace BugTrackerApp.Models
         public string Description { get; set; }
         public DateTime DateReported { get; set; }
         public bool IsResolved { get; set; }
+        public ErrorType Type { get; set; }
         public BugLevel Level { get; set; }
         public enum BugLevel
         {

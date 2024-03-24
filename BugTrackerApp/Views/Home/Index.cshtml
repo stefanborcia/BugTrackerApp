@@ -1,4 +1,6 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,4 +8,8 @@
 @{
     ViewBag.Title = "Index";
 }
-
+<div class="text-left">
+    <b>User Name:</b> @HttpContextAccessor?.HttpContext?.Request.Cookies["UserName"]
+    <br />
+    <b>User Id:</b> @HttpContextAccessor?.HttpContext?.Request.Cookies["UserId"]
+</div>
