@@ -128,3 +128,13 @@ h3 {
     right: 0;
     border:none;
 }
+
+.hero {
+    background: #f4f4f4;
+    text-align: center;
+    padding: 100px 0;
+}
+
+    .hero h1 {
+        font-size: 3em;
+    }

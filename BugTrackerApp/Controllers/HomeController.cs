@@ -6,6 +6,7 @@ using BugTrackerApp.Data;
 using System.Globalization;
 using static BugTrackerApp.Models.Bug;
 using Controller = Microsoft.AspNetCore.Mvc.Controller;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BugTrackerApp.Controllers
 {
@@ -42,6 +43,7 @@ namespace BugTrackerApp.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        [Authorize]
         public IActionResult Dashboard()
         {
             var bugs = _context.Bugs
