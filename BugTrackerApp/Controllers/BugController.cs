@@ -24,11 +24,7 @@ namespace BugTrackerApp.Controllers
 
         public IActionResult Create()
         {
-            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e => new SelectListItem
-            {
-                Value = e.ToString(),
-                Text = e.ToString()
-            }).ToList();
+            PopulateErrorTypesInViewBag();
             return View();
         }
 
@@ -42,17 +38,40 @@ namespace BugTrackerApp.Controllers
                 {
                     _context.Add(bug);
                     _context.SaveChanges();
+
                     return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Handle specific database update errors (e.g., unique constraint violations)
+                    ModelState.AddModelError("", "An error occurred while saving the bug. Please check the details.");
+                    // Log specific details about the exception
                 }
                 catch (Exception ex)
                 {
-                    // Log or handle the exception
-                    ModelState.AddModelError("", "An error occurred while saving the bug.");
-                    
+                    // Handle other unexpected exceptions
+                    ModelState.AddModelError("", "An unexpected error occurred.");
+                    // Log specific details about the exception
                 }
             }
-            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType));
+            // ModelState is not valid, re-populate ErrorTypes and return to the create view with validation errors
+            PopulateErrorTypesInViewBag();
             return View(bug);
+        }
+
+        private void PopulateErrorTypesInViewBag()
+        {
+            var errorTypes = Enum.GetValues(typeof(ErrorType))
+                .Cast<ErrorType>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                })
+                .ToList();
+
+            errorTypes.Insert(0, new SelectListItem("-- Select Error Type --", ""));
+            ViewBag.ErrorTypes = errorTypes;
         }
 
         public IActionResult Edit(int? id)
@@ -68,14 +87,7 @@ namespace BugTrackerApp.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e =>
-                new SelectListItem
-                {
-                    Value = e.ToString(),
-                    Text = e.ToString()
-                }).ToList();
-
+            PopulateErrorTypesInViewBag();
             return View(bug);
         }
 
@@ -110,36 +122,14 @@ namespace BugTrackerApp.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType)).Cast<ErrorType>().Select(e =>
-                new SelectListItem
-                {
-                    Value = e.ToString(),
-                    Text = e.ToString()
-                }).ToList();
-
+            PopulateErrorTypesInViewBag();
             return View(bug);
         }
         private bool BugExists(int id)
         {
             return _context.Bugs.Any(e => e.Id == id);
         }
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var bug = await _context.Bugs
-                .FirstOrDefaultAsync(m => m.Id == id);
-
-            if (bug == null)
-            {
-                return NotFound();
-            }
-            ViewBag.ErrorTypes = Enum.GetValues(typeof(ErrorType));
-            return View(bug);
-        }
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -171,6 +161,37 @@ namespace BugTrackerApp.Controllers
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Solve(int id)
+        {
+            var bug = _context.Bugs.Find(id);
+            if (bug == null)
+            {
+                return NotFound();
+            }
+
+            PopulateErrorTypesInViewBag();
+            return View(new SolvedBug { BugId = id }); // Pass a new instance of SolvedBug with BugId set
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Solve(SolvedBug solvedBug)
+        {
+            if (!ModelState.IsValid)
+            {
+                // If model state is not valid, return to the same view
+                return View(solvedBug);
+            }
+
+            // If model state is valid, proceed to display the submitted information
+            return RedirectToAction("ViewSubmittedData", solvedBug);
+        }
+
+        public IActionResult ViewSubmittedData(SolvedBug solvedBug)
+        {
+            // Pass the submitted SolvedBug model to the view to display the submitted information
+            return View(solvedBug);
         }
     }
 }

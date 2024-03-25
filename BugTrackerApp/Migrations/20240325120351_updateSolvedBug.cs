@@ -2,17 +2,17 @@
 
 #nullable disable
 
-namespace BugTrackerApp.Data.Migrations
+namespace BugTrackerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class AddErrorType : Migration
+    public partial class updateSolvedBug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "Type",
-                table: "Bugs",
+                name: "Id",
+                table: "SolvedBugs",
                 type: "int",
                 nullable: false,
                 defaultValue: 0);
@@ -22,8 +22,8 @@ namespace BugTrackerApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Type",
-                table: "Bugs");
+                name: "Id",
+                table: "SolvedBugs");
         }
     }
 }

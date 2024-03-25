@@ -12,8 +12,10 @@ namespace BugTrackerApp.Data
         {
         }
         public DbSet<Bug> Bugs { get; set; }
+        public DbSet<SolvedBug> SolvedBugs { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<SolvedBug>().HasNoKey(); // Define SolvedBug as a keyless entity type
             base.OnModelCreating(modelBuilder);
         }
     }

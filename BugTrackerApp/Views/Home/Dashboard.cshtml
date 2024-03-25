@@ -1,22 +1,9 @@
 ﻿@model BugStatisticsViewModel
+
 @{
     ViewData["Title"] = "My Dasboard";
 }
-<svg viewBox="0 0 ">
-    <symbol id="s-text">
-        <text text-anchor="middle" x="50%" y="80%">BUG TRACKER </text>
-        <text text-anchor="middle" x="52%" y="80%">BUG TRACKER </text>
-    
-    </symbol>
-
-    <g class = "g-ants">
-        <use xlink:href="#s-text" class="text-copy"></use>
-        <use xlink:href="#s-text" class="text-copy"></use>
-        <use xlink:href="#s-text" class="text-copy"></use>
-        <use xlink:href="#s-text" class="text-copy"></use>
-        <use xlink:href="#s-text" class="text-copy"></use>
-    </g>
-</svg>
+<h3>My Dashboard</h3>
 
 <div style="display: flex; justify-content: space-around;   align-items: center;
   min-height: 45vh;width: 100%;margin: 0 auto;">
@@ -61,23 +48,24 @@
             datasets: [{
                 label: 'High',
                 data: @Html.Raw(Json.Serialize(Model.HighBugsMonthlyCount)),
-                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                backgroundColor: '#ffa500',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             }, {
                 label: 'Medium',
                 data: @Html.Raw(Json.Serialize(Model.MediumBugsMonthlyCount)),
-                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                backgroundColor: '#00ffff',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }, {
                 label: 'Low',
                 data: @Html.Raw(Json.Serialize(Model.LowBugsMonthlyCount)),
-                backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                backgroundColor: '#800080',
                 borderColor: 'rgba(255, 206, 86, 1)',
                 borderWidth: 1
             }]
         },
+
         options: {
             title: {
                 display: true,
@@ -93,3 +81,4 @@
         }
     });
 </script>
+

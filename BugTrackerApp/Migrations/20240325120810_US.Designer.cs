@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BugTrackerApp.Data.Migrations
+namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    [Migration("20240321121014_Update-BugModel")]
-    partial class UpdateBugModel
+    [Migration("20240325120810_US")]
+    partial class US
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,13 +33,6 @@ namespace BugTrackerApp.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AssignedToId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("AssignedToUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("DateReported")
                         .HasColumnType("datetime2");
 
@@ -47,27 +40,45 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsResolved")
+                    b.Property<bool>("IsHighPriority")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ReportedById")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("ReportedByUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Level")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AssignedToId");
-
-                    b.HasIndex("ReportedById");
-
                     b.ToTable("Bugs");
+                });
+
+            modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
+                {
+                    b.Property<int>("BugId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateResolved")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StepsToSolve")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("TimeSpent")
+                        .HasColumnType("time");
+
+                    b.HasIndex("BugId");
+
+                    b.ToTable("SolvedBugs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -272,19 +283,15 @@ namespace BugTrackerApp.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApp.Models.Bug", b =>
+            modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AssignedTo")
+                    b.HasOne("BugTrackerApp.Models.Bug", "Bug")
                         .WithMany()
-                        .HasForeignKey("AssignedToId");
+                        .HasForeignKey("BugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "ReportedBy")
-                        .WithMany()
-                        .HasForeignKey("ReportedById");
-
-                    b.Navigation("AssignedTo");
-
-                    b.Navigation("ReportedBy");
+                    b.Navigation("Bug");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,10 +1,13 @@
-﻿public enum ErrorType
+﻿namespace BugTrackerApp.Models
 {
-    InitializationError,
-    InputValidationError,
-    ResourceAllocationError,
-    LogicError,
-    ConcurrencyError,
-    IOError,
-    SecurityVulnerability
+    public enum ErrorType
+    {
+        InitializationError,
+        InputValidationError,
+        ResourceAllocationError,
+        LogicError,
+        ConcurrencyError,
+        IOError,
+        SecurityVulnerability
+    }
 }

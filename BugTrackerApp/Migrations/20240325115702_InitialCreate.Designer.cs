@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace BugTrackerApp.Data.Migrations
+namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    [Migration("20240322120307_UpdateBSVM")]
-    partial class UpdateBSVM
+    [Migration("20240325115702_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,7 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsResolved")
+                    b.Property<bool>("IsHighPriority")
                         .HasColumnType("bit");
 
                     b.Property<int>("Level")
@@ -50,9 +50,35 @@ namespace BugTrackerApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Bugs");
+                });
+
+            modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
+                {
+                    b.Property<int>("BugId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateResolved")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("StepsToSolve")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<TimeSpan>("TimeSpent")
+                        .HasColumnType("time");
+
+                    b.HasIndex("BugId");
+
+                    b.ToTable("SolvedBugs");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -255,6 +281,17 @@ namespace BugTrackerApp.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
+                {
+                    b.HasOne("BugTrackerApp.Models.Bug", "Bug")
+                        .WithMany()
+                        .HasForeignKey("BugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Bug");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

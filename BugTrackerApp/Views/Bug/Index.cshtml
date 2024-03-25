@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 @{
     ViewData["Title"] = "Bug List";
 }
@@ -20,8 +19,8 @@ else
                 <th>Title</th>
                 <th>Description</th>
                 <th>Date Reported</th>
-                <th>Resolved</th>
                 <th>Level</th>
+                <th>Priority</th>
                 <th>Type Error</th>
                 <th>Actions</th>
             </tr>
@@ -30,18 +29,18 @@ else
             @foreach (var bug in Model)
             {
                 <tr>
-                    <td width="15%">@bug.Title</td>
+                    <td width="10%">@bug.Title</td>
                     @* <td>@bug.Description</td> *@
-                    <td width="30%">
+                    <td width="25%">
                         <p id="description-text-@bug.Id" class="truncated-description">@bug.Description</p>
                     </td>
-                    <td width="10%">@bug.DateReported.ToShortDateString()</td>
-                    <td width="5%">@bug.IsResolved</td>
+                    <td width="15%">@bug.DateReported.ToShortDateString()</td>
                     <td width="5%">@bug.Level</td>
+                    <td width="5%">@bug.IsHighPriority</td>
                     <td width="10%">@bug.Type.ToString()</td>
-                    <td width="20%">
+                    <td width="25%">
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
-                        <a class="btn btn-info" asp-action="Details" asp-route-id="@bug.Id">Details</a>
+                        <a class="btn btn-info" asp-action="Solve" asp-route-id="@bug.Id">Solve</a>
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@bug.Id">Delete</a>
                     </td>
                 </tr>

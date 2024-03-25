@@ -3,12 +3,11 @@
 @{
     ViewData["Title"] = "Edit Bug";
 }
-<h3>Edit Bug</h3>
+<h3>@ViewData["Title"]</h3>
+<hr />
 
 <div class="form-container">
-    <form asp-action="Edit">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Id" />
+    <form asp-action="Edit" method="post" >
         <div class="form-group">
             <label asp-for="Title" class="control-label"></label>
             <input asp-for="Title" class="form-control" />
@@ -22,6 +21,7 @@
         <div class="form-group">
             <label asp-for="Level" class="control-label"></label>
             <select asp-for="Level" class="form-control" asp-items="Html.GetEnumSelectList<Bug.BugLevel>()"></select>
+            <span asp-validation-for="Level" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="DateReported" class="control-label"></label>
@@ -29,18 +29,16 @@
             <span asp-validation-for="DateReported" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="IsResolved" class="control-label"></label>
-            <input asp-for="IsResolved" class="form-check-input" />
-            <span asp-validation-for="IsResolved" class="text-danger"></span>
-        </div>
-        <div class="form-group">
             <label asp-for="Type" class="control-label col-md-2"></label>
             <div class="col-md-10">
-                <select asp-for="Type" asp-items="@(ViewBag.ErrorTypes)" class="form-control">
-                    <option value="">-- Select Error Type --</option>
-                </select>
+                <select asp-for="Type" asp-items="ViewBag.ErrorTypes" class="form-control"></select>
                 <span asp-validation-for="Type" class="text-danger"></span>
             </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="IsHighPriority">High Priority</label>
+            <input type="checkbox" asp-for="IsHighPriority" />
+            <span asp-validation-for="IsHighPriority" class="text-danger"></span>
         </div>
         <div class="form-group">
             <input type="submit" value="Save" class="btn btn-primary" />

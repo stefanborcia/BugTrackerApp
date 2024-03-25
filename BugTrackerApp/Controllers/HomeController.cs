@@ -39,7 +39,7 @@ namespace BugTrackerApp.Controllers
                 .ToList();
 
             //Retrieve bug data grouped by month and severity levels
-            var bugData = _context.Bugs
+            var bugData = bugs
                 .GroupBy(b => new { Month = b.DateReported.Month, Level = b.Level })
                 .Select(g => new { Month = g.Key.Month, Level = g.Key.Level, Count = g.Count() })
                 .ToList();
@@ -68,8 +68,6 @@ namespace BugTrackerApp.Controllers
             }
             var bugStatisticsViewModel = new BugStatisticsViewModel
             {
-                SolvedBugsCount = bugs.Count(b => b.IsResolved),
-                UnsolvedBugsCount = bugs.Count(b => !b.IsResolved),
                 HighBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.High),
                 MediumBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.Medium),
                 LowBugsCount = bugs.Count(b => b.Level == Bug.BugLevel.Low),
