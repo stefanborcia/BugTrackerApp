@@ -4,15 +4,44 @@ namespace BugTrackerApp.Models
 {
     public class SolvedBug
     {
-        [Required]
+        public SolvedBug()
+        {
+            DateResolved = DateTime.Today;
+        }
+
+        [Required(ErrorMessage = "Please provide steps to solve.")]
         public string? StepsToSolve { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please provide the time spent.")]
         public TimeSpan TimeSpent { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please provide the date resolved.")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Date Resolved")]
+        [DateInPastAndNotFuture(ErrorMessage = "Date resolved must be today's date.")]
         public DateTime DateResolved { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please specify if the bug is resolved.")]
         public bool IsResolved { get; set; }
         public int BugId { get; set; }
         public Bug? Bug { get; set; }
+        
+        public class DateInPastAndNotFutureAttribute : ValidationAttribute
+        {
+            protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+            {
+                var dateResolved = (DateTime)value;
+                var currentDate = DateTime.Today;
+
+                if (dateResolved < DateTime.MinValue || dateResolved > DateTime.MaxValue)
+                {
+                    return new ValidationResult("Date resolved is out of valid range.");
+                }
+
+                if (dateResolved.Date != currentDate)
+                {
+                    return new ValidationResult("Date resolved must be today's date.");
+                }
+
+                return ValidationResult.Success;
+            }
+        }
     }
 }

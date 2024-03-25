@@ -254,7 +254,7 @@
 //            bug.die();
 //        } else if (mode === 'multiply') {
 //            if (!this.multiplyDelay && this.bugs.length < this.options.maxBugs) {
-//                 spawn another: 
+//                 spawn another:
 //                 create new bug:
 //                var b = SpawnBug(),
 //                    options = JSON.parse(JSON.stringify(this.options)),
@@ -457,7 +457,7 @@
 
 //        if (delta < 40) return; // don't animate too frequently
 
-//         sometimes if the browser doesnt have focus, or the delta in request animation 
+//         sometimes if the browser doesnt have focus, or the delta in request animation
 //         frame can be very large. We set a sensible max so that the bugs dont spaz out.
 
 //        if (delta > 200) delta = 200;
@@ -717,7 +717,7 @@
 //            style.top = windowY + (2 * this.options.bugHeight);
 //            style.left = Math.random() * windowX;
 //        } else {
-//             left: 
+//             left:
 //            style.top = Math.random() * windowY;
 //            style.left = (-3 * this.options.bugWidth);
 //        }
@@ -768,7 +768,7 @@
 //            style.top = windowY + (0.3 * this.options.bugHeight);
 //            style.left = Math.random() * windowX;
 //        } else {
-//             left: 
+//             left:
 //            style.top = Math.random() * windowY;
 //            style.left = (-1.3 * this.options.bugWidth);
 //        }
@@ -808,7 +808,7 @@
 //            style.top = windowY + 200;
 //            style.left = Math.random() * windowX;
 //        } else {
-//             left: 
+//             left:
 //            style.top = Math.random() * windowY;
 //            style.left = -200;
 //        }
@@ -904,7 +904,7 @@
 //        }
 //    },
 
-//     helper methods: 
+//     helper methods:
 //    rad2deg: function (rad) {
 //        return rad * this.rad2deg_k;
 //    },
@@ -1000,8 +1000,8 @@
 //    return temp;
 //}
 
-// Request animation frame polyfill 
-// http://paulirish.com/2011/requestanimationframe-for-smart-animating/ 
+// Request animation frame polyfill
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
 //window.requestAnimFrame = (function () {
 //    return window.requestAnimationFrame ||
 //        window.webkitRequestAnimationFrame ||
@@ -1029,3 +1029,37 @@
 
 
 // 1030 lines of code. OOF.
+document.addEventListener("DOMContentLoaded", function () {
+    var cookiePopup = document.getElementById("cookiePopup");
+    var closeBtn = document.getElementById("closeCookiesBtn");
+
+    if (localStorage.getItem('acceptedCookies') === 'true') {
+        cookiePopup.style.display = "none";
+        return;
+    }
+
+    closeBtn.addEventListener("click", function () {
+        cookiePopup.style.display = "none";
+        setAcceptedCookies(true);
+    });
+
+    if (cookiePopup.style.display === "none") {
+        return;
+    }
+
+    window.addEventListener("beforeunload", function (event) {
+        if (localStorage.getItem('acceptedCookies') !== 'true') {
+            localStorage.setItem('previouslyVisited', 'true');
+        }
+    });
+
+    if (localStorage.getItem('previouslyVisited') === 'true') {
+        wixWindow.openLightbox("Cookies");
+        localStorage.removeItem('previouslyVisited');
+    }
+});
+
+function setAcceptedCookies(value) {
+    localStorage.setItem('acceptedCookies', value);
+    sendCookieAcceptanceToServer();
+}

@@ -1,8 +1,10 @@
+@import url("https://fonts.googleapis.com/css2?family=Righteous&display=swap");
+
 html {
     position: relative;
     min-height: 100%;
 }
-body{
+body {
     margin-bottom:50px;
 }
 @media (min-width: 768px) {
@@ -108,4 +110,21 @@ footer {
 }
 h3 {
     text-align: center;
+}
+.cookie-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #f0f0f0;
+    width:300px;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+#closeCookiesBtn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border:none;
 }

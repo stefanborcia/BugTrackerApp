@@ -5,6 +5,7 @@ using System.Diagnostics;
 using BugTrackerApp.Data;
 using System.Globalization;
 using static BugTrackerApp.Models.Bug;
+using Controller = Microsoft.AspNetCore.Mvc.Controller;
 
 namespace BugTrackerApp.Controllers
 {
@@ -22,10 +23,18 @@ namespace BugTrackerApp.Controllers
         {
             return View();
         }
-
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult AcceptCookies()
         {
-            return View();
+            // Set the cookie named "acceptedCookies" with a value of "true" and a 1-year expiration
+            Response.Cookies.Append("acceptedCookies", "true", new CookieOptions()
+            {
+                Expires = DateTime.Now.AddDays(365),
+                HttpOnly = true,
+                Secure = true // Use this with HTTPS for added security (optional)
+            });
+
+            return Content("Cookie accepted", "text/plain");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

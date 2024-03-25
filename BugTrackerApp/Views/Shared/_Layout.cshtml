@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Azure.Core
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -46,5 +48,9 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <div id="cookiePopup" class="cookie-popup">
+        <p>By using this website you agree to our use of cookies. We use cookies to provide you with a great experience and to operate our website effectively.</p>
+        <button id="closeCookiesBtn">X</button>
+    </div>
 </body>
 </html>
