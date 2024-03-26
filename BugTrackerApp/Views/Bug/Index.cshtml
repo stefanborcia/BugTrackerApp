@@ -6,7 +6,9 @@
 }
 @if (!SignInManager.IsSignedIn(User))
 {
-    <p>You are not currently logged in. Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity" asp-page="/Account/Register">register</a> to continue.</p>
+    <div>
+        <p>You are not currently logged in. Please <a asp-area="Identity" asp-page="/Account/Login">log in</a> or <a asp-area="Identity" asp-page="/Account/Register">register</a> to continue.</p>
+    </div>
 }
 else
 {

@@ -138,3 +138,31 @@ h3 {
     .hero h1 {
         font-size: 3em;
     }
+.centered-message {
+    text-align: center; /* Horizontally center the content */
+    margin: 0 auto; /* Vertically center the content (optional) */
+    padding: 20px; /* Add some space around the text */
+    border: 5px solid #ddd; /* Create a border */
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow box */
+    background-color: #f5f5f5; /* Light background for better readability */
+    font-size: 16px; /* Set a base font size */
+    color: #333; /* Set text color for good contrast */
+}
+
+    .centered-message a {
+        color: #007bff; /* Blue color for links */
+        text-decoration: none; /* Remove underline initially */
+        padding: 5px; /* Add some padding for clickable area */
+        border-radius: 3px; /* Add subtle rounding to links */
+    }
+
+        .centered-message a:hover {
+            text-decoration: underline; /* Underline links on hover */
+            background-color: #e8e8e8; /* Light gray background on hover */
+        }
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
