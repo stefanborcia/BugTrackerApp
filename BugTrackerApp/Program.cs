@@ -12,8 +12,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<BugDbContext>().AddDefaultTokenProviders(); ;
-builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

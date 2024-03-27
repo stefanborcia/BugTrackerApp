@@ -70,16 +70,17 @@ namespace BugTrackerApp.Areas.Identity.Pages.Account
         /// </summary>
         public class InputModel
         {
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [Display(Name = "First Name")]
-            public string FirstName { get; set; }
-            [Required]
-            [Display(Name = "Last Name")]
-            public string LastName { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -120,8 +121,7 @@ namespace BugTrackerApp.Areas.Identity.Pages.Account
             {
 
                 var user = CreateUser();
-                await _emailStore.SetEmailAsync(user, Input.FirstName, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, Input.LastName, CancellationToken.None);
+
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 

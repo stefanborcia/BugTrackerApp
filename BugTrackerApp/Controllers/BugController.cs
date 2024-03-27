@@ -4,11 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace BugTrackerApp.Controllers
 {
     public class BugController : Controller
     {
+
         private readonly BugDbContext _context;
         private readonly UserManager<IdentityUser> _userManager;
         public BugController(BugDbContext context, UserManager<IdentityUser> userManager)
@@ -184,8 +186,17 @@ namespace BugTrackerApp.Controllers
                 return View(solvedBug);
             }
 
-            // If model state is valid, proceed to display the submitted information
-            return RedirectToAction("ViewSubmittedData", solvedBug);
+            // Prepare data for TempData
+            TempData["StepsToSolve"] = solvedBug.StepsToSolve;
+            TempData["TimeSpent"] = solvedBug.TimeSpent;
+            TempData["IsResolved"] = solvedBug.IsResolved;
+            TempData["DateResolved"] = solvedBug.DateResolved;
+
+            // Serialize the solvedBug object using Newtonsoft.Json
+            TempData["SubmittedBugData"] = JsonConvert.SerializeObject(solvedBug);
+
+            // Redirect to the Dashboard
+            return RedirectToAction("Dashboard", "Home");
         }
 
         public IActionResult ViewSubmittedData(SolvedBug solvedBug)
