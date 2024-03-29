@@ -46,9 +46,16 @@ namespace BugTrackerApp.Controllers
         [Authorize]
         public IActionResult Dashboard()
         {
+            
             var bugs = _context.Bugs
                 .ToList();
-
+            var solvedBugs = _context.SolvedBugs.ToList();
+            // Fetch recently solved bugs
+            var recentlySolvedBugs = _context.SolvedBugs
+                .Where(sb => sb.ShowOnDashboard)
+                .OrderByDescending(sb => sb.DateResolved)
+                .Take(5) // Adjust the number if needed
+                .ToList();
             //Retrieve bug data grouped by month and severity levels
             var bugData = bugs
                 .GroupBy(b => new { Month = b.DateReported.Month, Level = b.Level })
@@ -85,9 +92,16 @@ namespace BugTrackerApp.Controllers
                 MonthLabels = monthLabels,
                 HighBugsMonthlyCount = highBugsMonthlyCount,
                 MediumBugsMonthlyCount = mediumBugsMonthlyCount,
-                LowBugsMonthlyCount = lowBugsMonthlyCount
+                LowBugsMonthlyCount = lowBugsMonthlyCount,
             };
-            return View(bugStatisticsViewModel);
+
+            var dashboardVM = new DashboardViewModel
+            {
+                BugStatistics = bugStatisticsViewModel,  // Your existing BugStatisticsViewModel
+                RecentlySolvedBugs = recentlySolvedBugs
+            };
+
+            return View(dashboardVM);
         }       
     }
 }

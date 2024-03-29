@@ -28,6 +28,7 @@
             <input type="date" asp-for="DateResolved" class="form-control" />
             <span asp-validation-for="DateResolved" class="text-danger"></span>
         </div>
+        <input type="hidden" name="BugId" value="@Model.BugId" />
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-dark" asp-action="Index">Back to List</a>
     </form>

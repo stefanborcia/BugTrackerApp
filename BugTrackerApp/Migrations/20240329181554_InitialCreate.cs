@@ -178,14 +178,16 @@ namespace BugTrackerApp.Migrations
                 name: "SolvedBugs",
                 columns: table => new
                 {
+                    BugId = table.Column<int>(type: "int", nullable: false),
                     StepsToSolve = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TimeSpent = table.Column<TimeSpan>(type: "time", nullable: false),
                     DateResolved = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsResolved = table.Column<bool>(type: "bit", nullable: false),
-                    BugId = table.Column<int>(type: "int", nullable: false)
+                    ShowOnDashboard = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_SolvedBugs", x => x.BugId);
                     table.ForeignKey(
                         name: "FK_SolvedBugs_Bugs_BugId",
                         column: x => x.BugId,
@@ -232,11 +234,6 @@ namespace BugTrackerApp.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SolvedBugs_BugId",
-                table: "SolvedBugs",
-                column: "BugId");
         }
 
         /// <inheritdoc />

@@ -1,0 +1,27 @@
+﻿@model SolvedBug
+
+@{
+    ViewData["Title"] = "BugDetails";
+}
+
+
+<h2>Bug Details</h2>
+
+<div>
+    <label asp-for="StepsToSolve"></label>
+    <p>@Model.StepsToSolve</p>
+
+    <label asp-for="TimeSpent"></label>
+    <p>@Model.TimeSpent</p>
+
+    @if (Model.Bug != null) 
+    {
+        <h3>Related Bug</h3>
+        <label>Title:</label>
+        <p>@Model.Bug.Title</p>
+
+    }
+
+    <a asp-action="Edit" asp-route-id="@Model.Bug" class="btn btn-warning">Edit</a>
+</div>
+

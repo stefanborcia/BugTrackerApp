@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    [Migration("20240327192518_AddSolution")]
-    partial class AddSolution
+    [Migration("20240329181554_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,43 +58,19 @@ namespace BugTrackerApp.Migrations
                     b.ToTable("Bugs");
                 });
 
-            modelBuilder.Entity("BugTrackerApp.Models.Solution", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BugId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("DateResolved")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("StepsToSolve")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<TimeSpan>("TimeSpent")
-                        .HasColumnType("time");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BugId");
-
-                    b.ToTable("Solutions");
-                });
-
             modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
                 {
                     b.Property<int>("BugId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateResolved")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShowOnDashboard")
                         .HasColumnType("bit");
 
                     b.Property<string>("StepsToSolve")
@@ -104,7 +80,7 @@ namespace BugTrackerApp.Migrations
                     b.Property<TimeSpan>("TimeSpent")
                         .HasColumnType("time");
 
-                    b.HasIndex("BugId");
+                    b.HasKey("BugId");
 
                     b.ToTable("SolvedBugs");
                 });
@@ -311,22 +287,11 @@ namespace BugTrackerApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("BugTrackerApp.Models.Solution", b =>
-                {
-                    b.HasOne("BugTrackerApp.Models.Bug", "Bug")
-                        .WithMany()
-                        .HasForeignKey("BugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Bug");
-                });
-
             modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
                 {
                     b.HasOne("BugTrackerApp.Models.Bug", "Bug")
-                        .WithMany()
-                        .HasForeignKey("BugId")
+                        .WithOne("SolvedBug")
+                        .HasForeignKey("BugTrackerApp.Models.SolvedBug", "BugId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -381,6 +346,12 @@ namespace BugTrackerApp.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BugTrackerApp.Models.Bug", b =>
+                {
+                    b.Navigation("SolvedBug")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

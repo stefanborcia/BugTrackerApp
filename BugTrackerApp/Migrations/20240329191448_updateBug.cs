@@ -5,25 +5,25 @@
 namespace BugTrackerApp.Migrations
 {
     /// <inheritdoc />
-    public partial class updateSolvedBug : Migration
+    public partial class updateBug : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "Id",
-                table: "SolvedBugs",
-                type: "int",
+            migrationBuilder.AddColumn<bool>(
+                name: "ShowInBugList",
+                table: "Bugs",
+                type: "bit",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: false);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Id",
-                table: "SolvedBugs");
+                name: "ShowInBugList",
+                table: "Bugs");
         }
     }
 }

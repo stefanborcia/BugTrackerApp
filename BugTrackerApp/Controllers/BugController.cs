@@ -34,7 +34,7 @@ namespace BugTrackerApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Bug bug)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 try
                 {
@@ -180,28 +180,36 @@ namespace BugTrackerApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Solve(SolvedBug solvedBug)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 // If model state is not valid, return to the same view
                 return View(solvedBug);
             }
+            var bugToUpdate = _context.Bugs.Find(solvedBug.BugId);
+            if (bugToUpdate != null)
+            {
+                bugToUpdate.ShowInBugList = false;
+                _context.SaveChanges();
+            }
 
-            // Prepare data for TempData
-            TempData["StepsToSolve"] = solvedBug.StepsToSolve;
-            TempData["TimeSpent"] = solvedBug.TimeSpent;
-            TempData["IsResolved"] = solvedBug.IsResolved;
-            TempData["DateResolved"] = solvedBug.DateResolved;
+            // Save SolvedBug if needed
+            _context.SolvedBugs.Add(solvedBug);
+            _context.SaveChanges();
 
-            // Serialize the solvedBug object using Newtonsoft.Json
-            TempData["SubmittedBugData"] = JsonConvert.SerializeObject(solvedBug);
-
-            // Redirect to the Dashboard
             return RedirectToAction("Dashboard", "Home");
         }
-
-        public IActionResult ViewSubmittedData(SolvedBug solvedBug)
+        public IActionResult BugDetails(int id)
         {
-            // Pass the submitted SolvedBug model to the view to display the submitted information
+            var solvedBug = _context.SolvedBugs
+                .Include(sb => sb.Bug) // Include the related Bug data
+                .FirstOrDefault(sb => sb.BugId == id);
+
+
+            if (solvedBug == null)
+            {
+                return NotFound();
+            }
+
             return View(solvedBug);
         }
     }

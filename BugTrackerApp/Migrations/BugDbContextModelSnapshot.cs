@@ -43,6 +43,9 @@ namespace BugTrackerApp.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ShowInBugList")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -58,12 +61,16 @@ namespace BugTrackerApp.Migrations
             modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
                 {
                     b.Property<int>("BugId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateResolved")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsResolved")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("ShowOnDashboard")
                         .HasColumnType("bit");
 
                     b.Property<string>("StepsToSolve")
@@ -73,7 +80,7 @@ namespace BugTrackerApp.Migrations
                     b.Property<TimeSpan>("TimeSpent")
                         .HasColumnType("time");
 
-                    b.HasIndex("BugId");
+                    b.HasKey("BugId");
 
                     b.ToTable("SolvedBugs");
                 });
@@ -283,8 +290,8 @@ namespace BugTrackerApp.Migrations
             modelBuilder.Entity("BugTrackerApp.Models.SolvedBug", b =>
                 {
                     b.HasOne("BugTrackerApp.Models.Bug", "Bug")
-                        .WithMany()
-                        .HasForeignKey("BugId")
+                        .WithOne("SolvedBug")
+                        .HasForeignKey("BugTrackerApp.Models.SolvedBug", "BugId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -339,6 +346,12 @@ namespace BugTrackerApp.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("BugTrackerApp.Models.Bug", b =>
+                {
+                    b.Navigation("SolvedBug")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

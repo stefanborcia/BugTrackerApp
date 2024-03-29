@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Identity;
+using Newtonsoft.Json;
 
 namespace BugTrackerApp.Models
 {
@@ -18,8 +19,11 @@ namespace BugTrackerApp.Models
         public ErrorType Type { get; set; }
         [Required]
         public BugLevel Level { get; set; }
+        public SolvedBug SolvedBug { get; set; }
+        public bool ShowInBugList { get; set; } = true;
         [Required]
         public bool IsHighPriority { get; set; }
+        // Navigation property to SolvedBug
         public enum BugLevel
         {
             High,

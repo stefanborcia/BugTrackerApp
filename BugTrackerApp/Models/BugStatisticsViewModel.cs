@@ -12,5 +12,6 @@
         public int[]? HighBugsMonthlyCount { get; set; }
         public int[]? MediumBugsMonthlyCount { get; set; }
         public int[]? LowBugsMonthlyCount { get; set; }
+        public IEnumerable<SolvedBug> RecentlySolvedBugs { get; set; }
     }
 }

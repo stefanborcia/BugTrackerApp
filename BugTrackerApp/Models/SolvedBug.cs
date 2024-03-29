@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugTrackerApp.Models
 {
@@ -8,9 +9,12 @@ namespace BugTrackerApp.Models
         {
             DateResolved = DateTime.Today;
         }
-
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int BugId { get; set; }
         [Required(ErrorMessage = "Please provide steps to solve.")]
-        public string? StepsToSolve { get; set; }
+        public string StepsToSolve { get; set; }
+
         [Required(ErrorMessage = "Please provide the time spent.")]
         public TimeSpan TimeSpent { get; set; }
         [Required(ErrorMessage = "Please provide the date resolved.")]
@@ -20,9 +24,9 @@ namespace BugTrackerApp.Models
         public DateTime DateResolved { get; set; }
         [Required(ErrorMessage = "Please specify if the bug is resolved.")]
         public bool IsResolved { get; set; }
-        public int BugId { get; set; }
-        public Bug? Bug { get; set; }
-        
+        public bool ShowOnDashboard { get; set; } = true; // New property
+        public Bug Bug { get; set; }
+
         public class DateInPastAndNotFutureAttribute : ValidationAttribute
         {
             protected override ValidationResult IsValid(object value, ValidationContext validationContext)

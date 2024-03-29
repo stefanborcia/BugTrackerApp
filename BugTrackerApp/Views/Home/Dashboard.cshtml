@@ -1,5 +1,6 @@
 ﻿@using Newtonsoft.Json
-@model BugStatisticsViewModel
+@model DashboardViewModel
+
 
 @{
     ViewData["Title"] = "My Dasboard";
@@ -17,27 +18,31 @@
 </div>
 @* Section to display the SolvedBug data *@
 <div class="pt-5">
-    <h3>Recently Solved Bug</h3>
-    @if (TempData["SubmittedBugData"] != null)
-    {
-        <table class="table">
-            <thead>
+    <h3>Recently Solved Bugs</h3> 
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Steps to Reproduce</th>
+            <th>Time Spent (hours)</th>
+            <th>Mark as Solved</th>
+            <th>Date Resolved</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach(var solvedBug in Model.RecentlySolvedBugs)
+        {
             <tr>
-                    <th>Steps to Reproduce</th>
-                    <th>Time Spent (hours)</th>
-                    <th>Mark as Solved</th>
-                    <th>Date Resolved</th>
+                <td>@solvedBug.StepsToSolve</td>
+                <td>@solvedBug.TimeSpent</td>
+                <td>@solvedBug.IsResolved</td>
+                <td>@solvedBug.DateResolved.ToString("d")</td> 
+                <td>
+                    <a asp-action="BugDetails" asp-controller="Bug" asp-route-id="@solvedBug.BugId" class="btn btn-primary">Details</a>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>@TempData["StepsToSolve"]</td>
-                <td>@TempData["TimeSpent"]</td>
-                <td>@TempData["IsResolved"]</td>
-                <td>@TempData["DateResolved"]!.ToString()</td> 
-            </tbody>
-        </table>
-    }
+        }
+        </tbody>
+    </table>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
 
@@ -52,7 +57,8 @@
             labels: ['Solved', 'Unsolved', 'High', 'Medium', 'Low'],
             datasets: [{
                 label: 'Bug Statistics',
-                data: [@Model.SolvedBugsCount, @Model.UnsolvedBugsCount, @Model.HighBugsCount, @Model.MediumBugsCount, @Model.LowBugsCount],
+                // Access these counts within BugStatisticsViewModel
+                data: [@Model.BugStatistics.SolvedBugsCount, @Model.BugStatistics.UnsolvedBugsCount, @Model.BugStatistics.HighBugsCount, @Model.BugStatistics.MediumBugsCount, @Model.BugStatistics.LowBugsCount],
                 backgroundColor: ['#008000', '#ff0000', '#ffa500', '#00ffff', '#800080']
             }]
         },
@@ -68,22 +74,22 @@
     var monthlyBarChart = new Chart(monthlyBarCtx, {
         type: 'bar',
         data: {
-            labels: @Html.Raw(Json.Serialize(Model.MonthLabels)),
+            labels: @Html.Raw(Json.Serialize(Model.BugStatistics.MonthLabels)),
             datasets: [{
                 label: 'High',
-                data: @Html.Raw(Json.Serialize(Model.HighBugsMonthlyCount)),
+                data: @Html.Raw(Json.Serialize(Model.BugStatistics.HighBugsMonthlyCount)),
                 backgroundColor: '#ffa500',
                 borderColor: 'rgba(255, 99, 132, 1)',
                 borderWidth: 1
             }, {
                 label: 'Medium',
-                data: @Html.Raw(Json.Serialize(Model.MediumBugsMonthlyCount)),
+                data: @Html.Raw(Json.Serialize(Model.BugStatistics.MediumBugsMonthlyCount)),
                 backgroundColor: '#00ffff',
                 borderColor: 'rgba(54, 162, 235, 1)',
                 borderWidth: 1
             }, {
                 label: 'Low',
-                data: @Html.Raw(Json.Serialize(Model.LowBugsMonthlyCount)),
+                data: @Html.Raw(Json.Serialize(Model.BugStatistics.LowBugsMonthlyCount)),
                 backgroundColor: '#800080',
                 borderColor: 'rgba(255, 206, 86, 1)',
                 borderWidth: 1
