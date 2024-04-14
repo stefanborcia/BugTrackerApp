@@ -169,3 +169,14 @@ h3 {
     justify-content:space-around;
     align-items:center;
 }
+.in-progress {
+    color:yellow;
+}
+
+.in-review {
+    color:orange;
+}
+
+.done {
+    color:green;
+}

@@ -24,6 +24,15 @@
             <span asp-validation-for="IsResolved" class="text-danger"></span>
         </div>
         <div class="form-group">
+            <label asp-for="BugStatus">Bug Status</label>
+            <select asp-for="BugStatus" class="form-control">
+                <option value="In Progress">In Progress</option>
+                <option value="In Review">In Review</option>
+                <option value="Done">Done</option>
+            </select>
+            <span asp-validation-for="BugStatus" class="text-danger"></span>
+        </div>
+        <div class="form-group">
             <label asp-for="DateResolved">Date Resolved</label>
             <input type="date" asp-for="DateResolved" class="form-control" />
             <span asp-validation-for="DateResolved" class="text-danger"></span>

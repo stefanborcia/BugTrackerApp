@@ -26,7 +26,7 @@ namespace BugTrackerApp.Models
         public bool IsResolved { get; set; }
         public bool ShowOnDashboard { get; set; } = true; // New property
         public Bug Bug { get; set; }
-
+        public string BugStatus { get; set; }
         public class DateInPastAndNotFutureAttribute : ValidationAttribute
         {
             protected override ValidationResult IsValid(object value, ValidationContext validationContext)

@@ -26,6 +26,7 @@
             <th>Steps to Reproduce</th>
             <th>Time Spent (hours)</th>
             <th>Mark as Solved</th>
+            <th>Bug Status</th>
             <th>Date Resolved</th>
         </tr>
         </thead>
@@ -36,6 +37,7 @@
                 <td>@solvedBug.StepsToSolve</td>
                 <td>@solvedBug.TimeSpent</td>
                 <td>@solvedBug.IsResolved</td>
+                <td>@solvedBug.BugStatus</td>
                 <td>@solvedBug.DateResolved.ToString("d")</td> 
                 <td>
                     <a asp-action="BugDetails" asp-controller="Bug" asp-route-id="@solvedBug.BugId" class="btn btn-primary">Details</a>
