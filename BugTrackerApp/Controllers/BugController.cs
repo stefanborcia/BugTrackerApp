@@ -21,7 +21,8 @@ namespace BugTrackerApp.Controllers
 
         public IActionResult Index()
         {
-            return View(_context.Bugs.ToList());
+            var bugsToShow = _context.Bugs.Where(b => b.ShowInBugList);
+            return View(bugsToShow.ToList());
         }
 
         public IActionResult Create()

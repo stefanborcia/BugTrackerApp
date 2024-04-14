@@ -50,9 +50,3 @@ else
     </table>
     <p><a class="btn alert-info" asp-action="Create">Create a new bug</a></p>
 }
-<script>
-    function removeSolvedBugRow(bugId) {
-        var row = document.getElementById("bug-row-" + bugId);
-        row.parentNode.removeChild(row);
-    }
-</script>
