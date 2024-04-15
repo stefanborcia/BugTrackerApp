@@ -183,21 +183,44 @@ namespace BugTrackerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // If model state is not valid, return to the same view
-                return View(solvedBug);
+                // Fetch existing SolvedBug if present
+                var existingSolvedBug = _context.SolvedBugs.FirstOrDefault(sb => sb.BugId == solvedBug.BugId);
+
+                if (existingSolvedBug != null)
+                {
+                    // Update Existing SolvedBug
+                    existingSolvedBug.StepsToSolve = solvedBug.StepsToSolve;
+                    existingSolvedBug.TimeSpent = solvedBug.TimeSpent;
+                    // ... update other properties as needed
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    // Create a new SolvedBug
+                    _context.SolvedBugs.Add(solvedBug);
+                    _context.SaveChanges();
+                }
+
+                // Update Bug Status
+                var bugToUpdate = _context.Bugs.Find(solvedBug.BugId);
+                if (bugToUpdate != null)
+                {
+                    bugToUpdate.ShowInBugList = false;
+                    _context.SaveChanges();
+                }
+
+                return RedirectToAction("Dashboard", "Home");
             }
-            var bugToUpdate = _context.Bugs.Find(solvedBug.BugId);
-            if (bugToUpdate != null)
+
+            // Model state is not valid - Populate fields for editing
+            var viewModel = new SolvedBug
             {
-                bugToUpdate.ShowInBugList = false;
-                _context.SaveChanges();
-            }
-
-            // Save SolvedBug if needed
-            _context.SolvedBugs.Add(solvedBug);
-            _context.SaveChanges();
-
-            return RedirectToAction("Dashboard", "Home");
+                BugId = solvedBug.BugId,
+                StepsToSolve = solvedBug.StepsToSolve,
+                TimeSpent = solvedBug.TimeSpent,
+                // ... other properties
+            };
+            return View(viewModel);
         }
         public IActionResult BugDetails(int id)
         {
