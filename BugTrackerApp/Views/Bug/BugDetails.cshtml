@@ -8,16 +8,15 @@
 <h2>Bug Details</h2>
 
 <div>
-    <label asp-for="StepsToSolve"></label>
+    <label class="fw-bold" asp-for="StepsToSolve"></label>
     <p>@Model.StepsToSolve</p>
 
-    <label asp-for="TimeSpent"></label>
+    <label class="fw-bold" asp-for="TimeSpent"></label>
     <p>@Model.TimeSpent</p>
 
     @if (Model.Bug != null) 
     {
-        <h3>Related Bug</h3>
-        <label>Title:</label>
+        <label class="fw-bold">Title:</label>
         <p>@Model.Bug.Title</p>
 
     }

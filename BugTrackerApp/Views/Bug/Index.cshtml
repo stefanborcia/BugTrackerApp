@@ -40,7 +40,7 @@ else
                     <td width="5%">@bug.IsHighPriority</td>
                     <td width="10%">@bug.Type.ToString()</td>
                     <td width="25%">
-                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
+                        <a class="btn btn-warning " asp-action="Edit" asp-route-id="@bug.Id">Edit</a>
                         <a class="btn btn-info" asp-action="Solve" asp-route-id="@bug.Id" onclick="removeSolvedBugRow(@bug.Id)">Solve</a> 
                         <a class="btn btn-danger" asp-action="Delete" asp-route-id="@bug.Id">Delete</a>
                     </td>
@@ -48,5 +48,5 @@ else
             }
         </tbody>
     </table>
-    <p><a class="btn alert-info" asp-action="Create">Create a new bug</a></p>
+    <p><a class="btn btn-primary" asp-action="Create">Create a new bug</a></p>
 }
