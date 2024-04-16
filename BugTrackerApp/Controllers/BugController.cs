@@ -35,7 +35,7 @@ namespace BugTrackerApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(Bug bug)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
@@ -174,7 +174,8 @@ namespace BugTrackerApp.Controllers
             }
 
             PopulateErrorTypesInViewBag();
-            return View(new SolvedBug { BugId = id }); // Pass a new instance of SolvedBug with BugId set
+            var viewModel = new SolvedBug { BugId = id };
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -183,51 +184,58 @@ namespace BugTrackerApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Fetch existing SolvedBug if present
-                var existingSolvedBug = _context.SolvedBugs.FirstOrDefault(sb => sb.BugId == solvedBug.BugId);
-
-                if (existingSolvedBug != null)
-                {
-                    // Update Existing SolvedBug
-                    existingSolvedBug.StepsToSolve = solvedBug.StepsToSolve;
-                    existingSolvedBug.TimeSpent = solvedBug.TimeSpent;
-                    // ... update other properties as needed
-                    _context.SaveChanges();
-                }
-                else
-                {
-                    // Create a new SolvedBug
-                    _context.SolvedBugs.Add(solvedBug);
-                    _context.SaveChanges();
-                }
-
-                // Update Bug Status
-                var bugToUpdate = _context.Bugs.Find(solvedBug.BugId);
-                if (bugToUpdate != null)
-                {
-                    bugToUpdate.ShowInBugList = false;
-                    _context.SaveChanges();
-                }
-
-                return RedirectToAction("Dashboard", "Home");
+                return View(solvedBug);
             }
 
-            // Model state is not valid - Populate fields for editing
-            var viewModel = new SolvedBug
+            try
             {
-                BugId = solvedBug.BugId,
-                StepsToSolve = solvedBug.StepsToSolve,
-                TimeSpent = solvedBug.TimeSpent,
-                // ... other properties
-            };
-            return View(viewModel);
+                UpdateOrCreateSolvedBug(solvedBug);
+                UpdateBugStatus(solvedBug.BugId);
+                return RedirectToAction("Dashboard", "Home");
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(string.Empty, "An error occurred while saving the data.");
+                // Log the exception
+                return View(solvedBug);
+            }
+        }
+        private void UpdateOrCreateSolvedBug(SolvedBug solvedBug)
+        {
+            var existingSolvedBug = _context.SolvedBugs.FirstOrDefault(sb => sb.BugId == solvedBug.BugId);
+
+            if (existingSolvedBug != null)
+            {
+                // Update existing SolvedBug
+                existingSolvedBug.BugId=solvedBug.BugId;
+                existingSolvedBug.StepsToSolve = solvedBug.StepsToSolve;
+                existingSolvedBug.TimeSpent = solvedBug.TimeSpent;
+                existingSolvedBug.IsResolved = solvedBug.IsResolved;
+                existingSolvedBug.BugStatus = solvedBug.BugStatus;
+                existingSolvedBug.DateResolved = solvedBug.DateResolved;
+            }
+            else
+            {
+                // Create a new SolvedBug
+                _context.SolvedBugs.Add(solvedBug);
+            }
+
+            _context.SaveChanges();
+        }
+        private void UpdateBugStatus(int bugId)
+        {
+            var bugToUpdate = _context.Bugs.Find(bugId);
+            if (bugToUpdate != null)
+            {
+                bugToUpdate.ShowInBugList = false;
+                _context.SaveChanges();
+            }
         }
         public IActionResult BugDetails(int id)
         {
             var solvedBug = _context.SolvedBugs
                 .Include(sb => sb.Bug) // Include the related Bug data
                 .FirstOrDefault(sb => sb.BugId == id);
-
 
             if (solvedBug == null)
             {

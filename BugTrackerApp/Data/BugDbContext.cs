@@ -13,6 +13,5 @@ namespace BugTrackerApp.Data
         }
         public DbSet<Bug> Bugs { get; set; }
         public DbSet<SolvedBug> SolvedBugs { get; set; }
-
     }
 }

@@ -2,22 +2,25 @@ html {
     position: relative;
     min-height: 100%;
 }
+
 body {
-    margin-bottom:50px;
+    margin-bottom: 50px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
 .table {
     padding: 15px;
 }
+
 th {
     font-weight: bold;
     text-align: center;
@@ -26,11 +29,13 @@ th {
 td {
     align-items: center;
     text-align: center;
-    align-content:center;
+    align-content: center;
 }
+
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 .table a {
     /* General styles for all links in the table cell */
     display: inline-block; /* Makes them behave like block elements */
@@ -40,8 +45,9 @@ tr:nth-child(even) {
     text-decoration: none; /* Removes underline from links */
     cursor: pointer; /* Changes cursor to pointer on hover */
 }
+
 .form-group {
-    padding-bottom:10px;
+    padding-bottom: 10px;
 }
 
 .truncated-description {
@@ -50,9 +56,9 @@ tr:nth-child(even) {
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-align:center;
+    align-items:center;
 }
-
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 svg {
     display: block;
@@ -100,35 +106,38 @@ svg {
         stroke-dashoffset: -35%;
     }
 }
+
 footer {
     position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
 }
+
 h3 {
     text-align: center;
 }
+
 .cookie-popup {
     position: fixed;
     bottom: 20px;
     right: 20px;
     background-color: #f0f0f0;
-    width:300px;
+    width: 300px;
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     z-index: 9999;
 }
+
 #closeCookiesBtn {
     position: absolute;
     top: 0;
     right: 0;
-    border:none;
+    border: none;
 }
 
 .hero {
-    background: #f4f4f4;
     text-align: center;
     padding: 100px 0;
 }
@@ -136,6 +145,7 @@ h3 {
     .hero h1 {
         font-size: 3em;
     }
+
 .centered-message {
     text-align: center; /* Horizontally center the content */
     margin: 0 auto; /* Vertically center the content (optional) */
@@ -159,24 +169,29 @@ h3 {
             text-decoration: underline; /* Underline links on hover */
             background-color: #e8e8e8; /* Light gray background on hover */
         }
+
 .form-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.url-links{
-    display:flex;
-    justify-content:space-around;
-    align-items:center;
-}
-.in-progress {
-    color:yellow;
+
+.url-links {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
-.in-review {
-    color:orange;
+.form-login {
+    width: 100%;
+    max-width: 400px;
+    margin-left: 35%;
+    margin-top:2%
 }
 
-.done {
-    color:green;
+.card-login {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

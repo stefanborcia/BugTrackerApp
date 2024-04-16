@@ -34,7 +34,6 @@ namespace BugTrackerApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsHighPriority")
@@ -47,7 +46,6 @@ namespace BugTrackerApp.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
@@ -355,8 +353,7 @@ namespace BugTrackerApp.Migrations
 
             modelBuilder.Entity("BugTrackerApp.Models.Bug", b =>
                 {
-                    b.Navigation("SolvedBug")
-                        .IsRequired();
+                    b.Navigation("SolvedBug");
                 });
 #pragma warning restore 612, 618
         }

@@ -12,11 +12,13 @@
             <label asp-for="StepsToSolve">Steps to Reproduce</label>
         <textarea asp-for="StepsToSolve" class="form-control"></textarea>
             <span asp-validation-for="StepsToSolve" class="text-danger"></span>
+
         </div>
         <div class="form-group">
             <label asp-for="TimeSpent">Time Spent (hours)</label>
             <input type="time" asp-for="TimeSpent" class="form-control" />
             <span asp-validation-for="TimeSpent" class="text-danger"></span>
+
         </div>
         <div class="form-group">
             <label asp-for="IsResolved">Mark as Solved</label>
@@ -26,6 +28,7 @@
         <div class="form-group">
             <label asp-for="BugStatus">Bug Status</label>
             <select asp-for="BugStatus" class="form-control">
+                <option value="" disabled selected>-- Choose an option --</option>
                 <option value="In Progress">In Progress</option>
                 <option value="In Review">In Review</option>
                 <option value="Done">Done</option>
@@ -37,7 +40,7 @@
             <input type="date" asp-for="DateResolved" class="form-control" />
             <span asp-validation-for="DateResolved" class="text-danger"></span>
         </div>
-        <input type="hidden" name="BugId" value="@Model.BugId" />
+        <input type="hidden" asp-for="BugId" />
         <button type="submit" class="btn btn-primary">Submit</button>
         <a class="btn btn-dark" asp-action="Index">Back to List</a>
     </form>

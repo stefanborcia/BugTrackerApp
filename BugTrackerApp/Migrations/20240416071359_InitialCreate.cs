@@ -56,11 +56,12 @@ namespace BugTrackerApp.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateReported = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false),
                     Level = table.Column<int>(type: "int", nullable: false),
+                    ShowInBugList = table.Column<bool>(type: "bit", nullable: false),
                     IsHighPriority = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -183,7 +184,8 @@ namespace BugTrackerApp.Migrations
                     TimeSpent = table.Column<TimeSpan>(type: "time", nullable: false),
                     DateResolved = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsResolved = table.Column<bool>(type: "bit", nullable: false),
-                    ShowOnDashboard = table.Column<bool>(type: "bit", nullable: false)
+                    ShowOnDashboard = table.Column<bool>(type: "bit", nullable: false),
+                    BugStatus = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

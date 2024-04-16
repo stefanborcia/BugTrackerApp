@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    [Migration("20240329181554_InitialCreate")]
+    [Migration("20240416071359_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -37,7 +37,6 @@ namespace BugTrackerApp.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsHighPriority")
@@ -46,8 +45,10 @@ namespace BugTrackerApp.Migrations
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
+                    b.Property<bool>("ShowInBugList")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Type")
@@ -63,6 +64,10 @@ namespace BugTrackerApp.Migrations
                     b.Property<int>("BugId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    b.Property<string>("BugStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateResolved")
                         .HasColumnType("datetime2");
@@ -351,8 +356,7 @@ namespace BugTrackerApp.Migrations
 
             modelBuilder.Entity("BugTrackerApp.Models.Bug", b =>
                 {
-                    b.Navigation("SolvedBug")
-                        .IsRequired();
+                    b.Navigation("SolvedBug");
                 });
 #pragma warning restore 612, 618
         }

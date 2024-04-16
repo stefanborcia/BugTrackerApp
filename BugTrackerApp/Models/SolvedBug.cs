@@ -11,7 +11,7 @@ namespace BugTrackerApp.Models
         }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int BugId { get; set; }
+        public int BugId { get; set; } // Foreign Key
         [Required(ErrorMessage = "Please provide steps to solve.")]
         public string StepsToSolve { get; set; }
 
@@ -25,7 +25,7 @@ namespace BugTrackerApp.Models
         [Required(ErrorMessage = "Please specify if the bug is resolved.")]
         public bool IsResolved { get; set; }
         public bool ShowOnDashboard { get; set; } = true; // New property
-        public Bug Bug { get; set; }
+        public Bug Bug { get; set; } // Navigation Property
         public string BugStatus { get; set; }
         public class DateInPastAndNotFutureAttribute : ValidationAttribute
         {
