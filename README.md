@@ -1,6 +1,11 @@
 <h3 text-align:center>Bug Tracker App Home Page </h3>
 
-![1](https://github.com/stefanborcia/BugTrackerApp/assets/98278002/8e0130ab-41f4-45b6-b1ff-860c0f9f5da7)
+![image](https://github.com/stefanborcia/BugTrackerApp/assets/98278002/0e6ad298-d12b-42a9-b39e-f245b4866848)
+
+<h3>My Dasboard</h3>
+
+![image](https://github.com/stefanborcia/BugTrackerApp/assets/98278002/36bc5ea1-6047-4925-91bc-e58aba528f0b)
+
 
 <h3 text-align:center>Bug Tracker App Create a Bug</h3>
 
