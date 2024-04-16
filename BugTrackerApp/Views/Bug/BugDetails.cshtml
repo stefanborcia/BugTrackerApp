@@ -20,8 +20,7 @@
         <p>@Model.Bug.Title</p>
 
     }
-
-    <a asp-action="Edit" asp-route-id="@Model.BugId" asp-route-existingSolved="@Model.BugId" class="btn btn-warning">Edit</a>
+    <a asp-action="EditSolvedBug" asp-route-id="@Model.BugId" asp-route-existingSolved="@Model.BugId" class="btn btn-warning">Edit</a>
     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@Model.BugId">Delete</a>
     <a class="btn btn-dark" asp-controller="Home" asp-action="Dashboard">Back to List</a>
 </div>

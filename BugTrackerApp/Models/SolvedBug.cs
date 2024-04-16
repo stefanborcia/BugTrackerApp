@@ -5,6 +5,7 @@ namespace BugTrackerApp.Models
 {
     public class SolvedBug
     {
+        public int SolvedBugId { get; set; }
         public SolvedBug()
         {
             DateResolved = DateTime.Today;

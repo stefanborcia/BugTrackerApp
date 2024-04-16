@@ -4,6 +4,7 @@ using BugTrackerApp.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    partial class BugDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240416174745_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -74,9 +77,6 @@ namespace BugTrackerApp.Migrations
 
                     b.Property<bool>("ShowOnDashboard")
                         .HasColumnType("bit");
-
-                    b.Property<int>("SolvedBugId")
-                        .HasColumnType("int");
 
                     b.Property<string>("StepsToSolve")
                         .IsRequired()

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BugTrackerApp.Migrations
 {
     [DbContext(typeof(BugDbContext))]
-    [Migration("20240416071359_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240416181158_UpdateSolvedBug")]
+    partial class UpdateSolvedBug
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,9 @@ namespace BugTrackerApp.Migrations
 
                     b.Property<bool>("ShowOnDashboard")
                         .HasColumnType("bit");
+
+                    b.Property<int>("SolvedBugId")
+                        .HasColumnType("int");
 
                     b.Property<string>("StepsToSolve")
                         .IsRequired()

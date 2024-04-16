@@ -128,6 +128,54 @@ namespace BugTrackerApp.Controllers
             PopulateErrorTypesInViewBag();
             return View(bug);
         }
+
+        public IActionResult EditSolvedBug(int? id, int? existingSolved)
+        {
+            if (id == null || existingSolved == null)
+            {
+                return NotFound();
+            }
+
+            // Note: This finds the corresponding SolvedBug, adjust as needed for your setup
+            var solvedBug = _context.SolvedBugs.FirstOrDefault(sb => sb.BugId == id && sb.BugId == existingSolved);
+
+
+            if (solvedBug == null)
+            {
+                return NotFound();
+            }
+
+            // ... (code to populate ViewBag if needed)
+
+            return View(solvedBug);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditSolvedBug(int id, [Bind("SolvedBugId,BugId,StepsToSolve,TimeSpent,IsResolved,BugStatus,DateResolved")]
+            SolvedBug solvedBug)
+        {
+            if (id != solvedBug.BugId)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(solvedBug);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    // ... (handle concurrency conflicts)
+                }
+                return RedirectToAction("Dashboard", "Home");
+            }
+
+            return View(solvedBug);
+        }
+
         private bool BugExists(int id)
         {
             return _context.Bugs.Any(e => e.Id == id);

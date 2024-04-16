@@ -7,7 +7,7 @@
 <h3>@ViewData["Title"]</h3>
 <hr />
 <div class="form-container">
-    <form asp-action="Solve" asp-controller="Bug" method="post">
+    <form asp-action="Solve" asp-controller="Bug" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="StepsToSolve">Steps to Reproduce</label>
         <textarea asp-for="StepsToSolve" class="form-control"></textarea>

@@ -1,0 +1,49 @@
+﻿@model BugTrackerApp.Models.SolvedBug
+
+@{
+    ViewData["Title"] = "Edit Solved Bug";
+}
+
+<h2>Edit Solved Bug</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditSolvedBug">
+            <input type="hidden" asp-for="BugId" />
+            <input type="hidden" asp-for="SolvedBugId" />
+            <div class="form-group">
+                <label asp-for="StepsToSolve">Steps to Reproduce</label>
+                <textarea asp-for="StepsToSolve" class="form-control"></textarea>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="TimeSpent">Time Spent (hours)</label>
+                <input type="time" asp-for="TimeSpent" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="IsResolved">Mark as Solved</label>
+                <input type="checkbox" asp-for="IsResolved" class="form-check-input" />
+            </div>
+            <div class="form-group">
+                <label asp-for="BugStatus">Bug Status</label>
+                <select asp-for="BugStatus" class="form-control">
+                    <option value="" disabled selected>-- Choose an option --</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="In Review">In Review</option>
+                    <option value="Done">Done</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateResolved">Date Resolved</label>
+                <input type="date" asp-for="DateResolved" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-dark" asp-controller="Home" asp-action="Dashboard">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+
